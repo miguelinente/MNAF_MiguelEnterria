@@ -1,0 +1,13 @@
+Metadata-Version: 2.4
+Name: mnaf
+Version: 0.1.0
+Summary: Entorno del curso Métodos Numéricos y Aplicaciones a la Física
+Requires-Python: >=3.13
+Description-Content-Type: text/markdown
+Requires-Dist: numpy
+Requires-Dist: scipy
+Requires-Dist: sympy
+Requires-Dist: matplotlib
+Requires-Dist: pandas
+Requires-Dist: jupyterlab
+Requires-Dist: ipykernel

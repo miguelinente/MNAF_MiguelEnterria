@@ -1,0 +1,7 @@
+README.md
+pyproject.toml
+src/mnaf.egg-info/PKG-INFO
+src/mnaf.egg-info/SOURCES.txt
+src/mnaf.egg-info/dependency_links.txt
+src/mnaf.egg-info/requires.txt
+src/mnaf.egg-info/top_level.txt
