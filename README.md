@@ -12,3 +12,5 @@ sudo chronyc online
 sudo chronyc makestep
 sudo find / -type f -name hwclock 2>/dev/null
 ls -l /dev/rtc* ; ls /sys/class/rtc ; which hwclock
+
+sudo date -s "$(curl -I https://api.github.com | grep -i '^date:' | cut -d' ' -f3-8)"
