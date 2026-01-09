@@ -1,0 +1,101 @@
+<mxfile host="65bd71144e">
+    <diagram name="Algoritmo Capítulo 4" id="0">
+        <mxGraphModel dx="2483" dy="966" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="2000" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="inicio" value="INICIO" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366" parent="1" vertex="1">
+                    <mxGeometry x="360" y="20" width="160" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="entrada" value="Entrada de diseño&#xa;- Puntos 2D/3D del recorrido&#xa;- Parámetros físicos: m, μ, ca, Sf, ρa, g, v0&#xa;- Límites de seguridad / viabilidad" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf" parent="1" vertex="1">
+                    <mxGeometry x="260" y="110" width="360" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="bloque1" value="1) Construcción de trayectoria&#xa;- Ajuste B-spline: r(u)&#xa;- Obtener derivadas: r&#39;(u), r&#39;&#39;(u), r&#39;&#39;&#39;(u)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6" parent="1" vertex="1">
+                    <mxGeometry x="260" y="260" width="360" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="bloque2" value="2) Geometría local&#xa;- Calcular t(u), n(u), b(u)&#xa;- Curvatura κ(u) y torsión τ(u)&#xa;- Calcular ||r&#39;(u)||" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656" parent="1" vertex="1">
+                    <mxGeometry x="260" y="400" width="360" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="bloque3" value="3) Definir EDO del sistema&#xa;Estado y(t) = [u(t), v(t)]&#xa;- du/dt = v / ||r&#39;(u)||&#xa;- dv/dt = gravedad + pérdidas (μ, drag)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366" parent="1" vertex="1">
+                    <mxGeometry x="260" y="540" width="360" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="bloque4" value="4) Simulación – caso conservativo&#xa;- μ = 0, ca = 0&#xa;- Probar métodos (RK45, RK23, Radau)&#xa;- Error de energía ΔE(t)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450" parent="1" vertex="1">
+                    <mxGeometry x="260" y="690" width="360" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="seleccion" value="Selección de método&#xa;- Mejor conservación de energía&#xa;- Estabilidad numérica" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf" parent="1" vertex="1">
+                    <mxGeometry x="260" y="840" width="360" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="bloque5" value="5) Simulación – caso disipativo&#xa;- Activar μ y drag (ca, Sf, ρa)&#xa;- Integrar con método elegido&#xa;- Calcular v(t), N(t), aceleraciones" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450" parent="1" vertex="1">
+                    <mxGeometry x="260" y="970" width="360" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="bloque6" value="6) Chequeo de viabilidad / seguridad&#xa;- Evento final de vía (u = u_final)&#xa;- Evento parada (v ≤ 0)&#xa;- Límites de aceleración / normal" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656" parent="1" vertex="1">
+                    <mxGeometry x="260" y="1120" width="360" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="decision" value="¿Viable y seguro?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656" parent="1" vertex="1">
+                    <mxGeometry x="320" y="1270" width="240" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="bloque7" value="7) Modificar diseño&#xa;- Ajustar puntos o spline&#xa;- Suavizar curvatura / alturas&#xa;- Mantener bajada + loop + colina" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6" parent="1" vertex="1">
+                    <mxGeometry x="-190" y="1380" width="360" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="bloque8" value="8) Estudio de intervalos válidos&#xa;- Barrido en {m, μ, ca, Sf, v0}&#xa;- Simular → validar → clasificar&#xa;- Rangos viables" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf" parent="1" vertex="1">
+                    <mxGeometry x="260" y="1390" width="360" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="salida" value="Salida de resultados&#xa;- Gráficas v(t), N(t), a(t), energía&#xa;- Valores críticos y rangos válidos" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366" parent="1" vertex="1">
+                    <mxGeometry x="260" y="1550" width="360" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="fin" value="FIN" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366" parent="1" vertex="1">
+                    <mxGeometry x="360" y="1690" width="160" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="2" style="endArrow=block" parent="1" source="inicio" target="entrada" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" style="endArrow=block" parent="1" source="entrada" target="bloque1" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="4" style="endArrow=block" parent="1" source="bloque1" target="bloque2" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" style="endArrow=block" parent="1" source="bloque2" target="bloque3" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="6" style="endArrow=block" parent="1" source="bloque3" target="bloque4" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="7" style="endArrow=block" parent="1" source="bloque4" target="seleccion" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="8" style="endArrow=block" parent="1" source="seleccion" target="bloque5" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="9" style="endArrow=block" parent="1" source="bloque5" target="bloque6" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="10" style="endArrow=block" parent="1" source="bloque6" target="decision" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="11" style="endArrow=block" parent="1" source="decision" target="bloque7" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="12" style="endArrow=block" parent="1" source="decision" target="bloque8" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="13" style="endArrow=block;edgeStyle=orthogonalEdgeStyle" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="-10" y="1380" as="sourcePoint"/>
+                        <mxPoint x="30" y="360" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="-10" y="870"/>
+                            <mxPoint x="30" y="870"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="14" style="endArrow=block" parent="1" source="bloque8" target="salida" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="15" style="endArrow=block" parent="1" source="salida" target="fin" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

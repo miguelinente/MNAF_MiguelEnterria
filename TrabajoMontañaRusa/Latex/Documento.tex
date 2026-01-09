@@ -1,0 +1,208 @@
+\documentclass[11pt,a4paper]{article}
+
+% =========================
+% PAQUETES
+% =========================
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{caption}
+\usepackage{subcaption}
+
+\geometry{margin=2.5cm}
+
+% =========================
+% DATOS
+% =========================
+\title{
+    \vspace{2cm}
+    \textbf{Modelado y simulación de una montaña rusa}\\
+    \large Análisis dinámico en 2D y 3D mediante interpolación spline
+}
+\author{
+    Miguel  Enterría Lastra\\
+    Grado en Física\\
+    Universidad de Oviedo\\
+}
+\date{\today}
+
+% =========================
+% DOCUMENTO
+% =========================
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+\newpage
+
+\tableofcontents
+\newpage
+
+% ============================================================
+\section{Introducción}
+% ============================================================
+
+En esta práctica se estudia el comportamiento dinámico de un vagón que se desplaza a lo largo de una montaña rusa,
+modelada geométricamente mediante curvas paramétricas interpoladas con B-splines.
+El estudio se realiza primero en dos dimensiones y posteriormente se generaliza a tres dimensiones,
+permitiendo analizar trayectorias más realistas que incluyen giros y torsión.
+
+El objetivo principal es simular el movimiento resolviendo la ecuación diferencial asociada,
+comparar distintos métodos numéricos y evaluar magnitudes físicas relevantes como velocidad,
+aceleración, fuerza normal y conservación de la energía.
+
+% ============================================================
+\section{Modelo físico}
+% ============================================================
+
+El vagón se modela como una partícula de masa constante que se desplaza a lo largo de una trayectoria prescrita.
+Las fuerzas consideradas son:
+
+\begin{itemize}
+    \item Peso.
+    \item Reacción normal de la vía.
+    \item Fuerza de rozamiento.
+    \item Resistencia aerodinámica.
+\end{itemize}
+
+La formulación final conduce a un sistema de ecuaciones diferenciales para el parámetro de la curva $u(t)$
+y la velocidad $v(t)$, que se resuelve numéricamente mediante \texttt{solve\_ivp}.
+
+% ============================================================
+\section{Descripción geométrica del recorrido}
+% ============================================================
+
+La trayectoria de la montaña rusa se define a partir de un conjunto de puntos de control,
+que posteriormente se interpolan mediante B-splines cúbicos.
+
+\subsection{Trayectoria 2D}
+
+En el caso bidimensional, el movimiento queda restringido a un plano vertical.
+La trayectoria incluye elementos básicos como descensos pronunciados, bucles y colinas.
+Siguiendo la geometría propeusta por el guión. 
+
+Se muestra a continuación la curva parametrizada de la siguente manera:
+
+\begin{itemize}
+    \item Descenso inicial marcado por curva sigmoide.
+    \item Loop hecho con un clotoide.
+    \item Colina parametrizada como campana de Gauss.
+\end{itemize}
+
+Todas las geometrías se han hecho utilizando las funciones presentes en pkgcurvas.py
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{}
+    \caption{Trayectoria interpolada en 2D.}
+\end{figure}
+
+\subsection{Trayectoria 3D}
+
+El modelo tridimensional incorpora giros horizontales y tramos no planos.
+El recorrido completo se construye concatenando segmentos geométricos suaves.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{trayectoria_3D.png}
+    \caption{Trayectoria interpolada en 3D.}
+\end{figure}
+
+% ============================================================
+\section{Simulación numérica}
+% ============================================================
+
+La ecuación diferencial se resuelve empleando distintos métodos numéricos,
+tanto explícitos como implícitos, con el fin de analizar su estabilidad y precisión.
+
+\subsection{Comparación de métodos}
+
+Para el caso conservativo, se estudia la variación relativa de la energía total.
+Un método adecuado debe minimizar la deriva energética.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{energia_metodos.png}
+    \caption{Variación relativa de la energía para distintos métodos numéricos.}
+\end{figure}
+
+\begin{table}[H]
+\centering
+\caption{Comparación de métodos numéricos}
+\begin{tabular}{lcccc}
+\toprule
+Método & Pasos & $\Delta E_{\min}$ & $\Delta E_{\max}$ & $\sigma(\Delta E)$ \\
+\midrule
+RK45   &       &                  &                  &                    \\
+RK23   &       &                  &                  &                    \\
+DOP853 &       &                  &                  &                    \\
+Radau  &       &                  &                  &                    \\
+BDF    &       &                  &                  &                    \\
+LSODA  &       &                  &                  &                    \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+En base a los resultados obtenidos, el método \textbf{Radau} presenta el mejor comportamiento
+en términos de conservación de la energía, tanto en 2D como en 3D.
+
+% ============================================================
+\section{Resultados}
+% ============================================================
+
+A partir de la simulación se obtienen las siguientes magnitudes físicas:
+
+\begin{itemize}
+    \item Evolución temporal del parámetro $u(t)$ y de la velocidad $v(t)$.
+    \item Fuerza normal ejercida por la vía.
+    \item Aceleraciones tangencial y normal.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{resultados_dinamicos.png}
+    \caption{Evolución temporal de las principales magnitudes físicas.}
+\end{figure}
+
+Los valores máximos de aceleración y fuerza normal permiten evaluar la viabilidad del diseño
+desde el punto de vista de la seguridad.
+
+% ============================================================
+\section{Simulación y animación}
+% ============================================================
+
+La simulación se complementa con una animación del movimiento del vagón sobre la trayectoria,
+lo que permite una interpretación visual del comportamiento dinámico.
+
+En el caso tridimensional, la animación pone de manifiesto la influencia de los giros y la torsión
+en la dinámica del sistema.
+
+% ============================================================
+\section{Conclusiones}
+% ============================================================
+
+Se ha desarrollado un modelo completo para el estudio dinámico de una montaña rusa en 2D y 3D.
+El uso de interpolación mediante B-splines permite definir trayectorias suaves y realistas.
+
+La comparación de métodos numéricos muestra que los métodos implícitos,
+en particular Radau, ofrecen mayor estabilidad y mejor conservación de la energía.
+
+El análisis de aceleraciones y fuerzas normales indica que el diseño inicial requiere ajustes
+para cumplir criterios de seguridad realistas.
+
+% ============================================================
+\section*{Anexo: Herramientas empleadas}
+% ============================================================
+
+\begin{itemize}
+    \item \texttt{NumPy} y \texttt{SciPy} para el cálculo numérico.
+    \item \texttt{Matplotlib} para la visualización y animación.
+    \item Interpolación mediante \texttt{BSpline}.
+\end{itemize}
+
+\end{document}
