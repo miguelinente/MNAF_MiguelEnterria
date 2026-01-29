@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 ''' Archivo que contiene todas la funciones requeridas por los ejercicios '''
 
-from __init__ import _hello
 import math
 import numpy as np
 import numpy.polynomial as P
@@ -14,7 +13,7 @@ import scipy.linalg as spla
 from numpy.polynomial.legendre import leggauss
 
 def base_lagrange(soporte, plot=False):
-
+    print("Miguel Enterría Lastra UO278025")
     '''
     Función que construye la base de polinomios de Lagrange dado un soporte.
 
@@ -76,6 +75,7 @@ def base_lagrange(soporte, plot=False):
     return B
 
 def itp_Tchebisev(fun, npts, a, b):
+    print("Miguel Enterría Lastra UO278025")
     '''
     Cáculo del interpolante polinómico utilizando nodos de Tchebisev.
 
@@ -114,6 +114,7 @@ def itp_Tchebisev(fun, npts, a, b):
     plt.show()
 
 def itp_parametrica(data, bc_type='natural', u =None):
+    print("Miguel Enterría Lastra UO278025")
     '''
     Calcula el interpolante paramétrico de unos datos mediante splines cúbicas.
 
@@ -162,6 +163,7 @@ def itp_parametrica(data, bc_type='natural', u =None):
     return funitp, u
 
 def dncoef_base(soporte,puntos,orden):
+    print("Miguel Enterría Lastra UO278025")
     '''
     Calcula los coeficientes de una regla de derivación numérica de orden "orden" en uno o varios "puntos",
     usando la base de Lagrange asociada a "soporte". Devuelve una lista con coeficientes.
@@ -214,6 +216,7 @@ def dncoef_base(soporte,puntos,orden):
         return coef
 
 def deriva2(fun,puntos,h):
+    print("Miguel Enterría Lastra UO278025")
     '''
     Calcula la derivada segunda de una función en diferentes puntos según ciertas reglas numéricas.
 
@@ -255,6 +258,7 @@ def deriva2(fun,puntos,h):
     return [r1.tolist(), r2.tolist(), r3.tolist(), r4.tolist()]
 
 def incoef_base(soporte,puntos,a,b):
+    print("Miguel Enterría Lastra UO278025")
     '''
     Calcula los coeficientes de una regla de integración numérica para calcular la integral en un iontervalo [a,b] 
     utilizando los polinomios de Lagrange dado un soporte
@@ -280,6 +284,7 @@ def incoef_base(soporte,puntos,a,b):
     return coef
 
 def in_romberg(fun, a, b, nivel=10, tol=1e-6):
+    print("Miguel Enterría Lastra UO278025")
     '''
     Calcula la integral definida de fun en [a,b] usando el método de Romberg.
 
@@ -322,6 +327,7 @@ def in_romberg(fun, a, b, nivel=10, tol=1e-6):
     return N[nivel-1, nivel-1], err, N
 
 def paracaidista(y0,v0,m,cx,At,apertura=1500, rovar = False):
+    print("Miguel Enterría Lastra UO278025")
     '''
     Calcula la caída vertical de un paracaidista con rozamiento cuadrático,
     cambiando el coeficiente aerodinámico al abrir el paracaídas a una cierta altura.
@@ -391,6 +397,7 @@ def paracaidista(y0,v0,m,cx,At,apertura=1500, rovar = False):
     return [v_max, v_impacto, t_ap, t_total]
 
 def enlsolver(funx, a, b, meth, maxiter, tol):
+    print("Miguel Enterría Lastra UO278025")
     '''
     Resuelve funciones por distintos métodos de intervalo.
 
@@ -456,6 +463,7 @@ def enlsolver(funx, a, b, meth, maxiter, tol):
     return float(suc[-1]), 2, suc
 
 def enlsteffensen(funx, x0, maxiter=128, tol=(1e-9, 1e-5, 1e-12)):
+    print("Miguel Enterría Lastra UO278025")
     """
     Método de Steffensen para resolver f(x)=0.
 
@@ -505,6 +513,7 @@ def enlsteffensen(funx, x0, maxiter=128, tol=(1e-9, 1e-5, 1e-12)):
     return float(suc[-1]), 2, suc
 
 def sor_interval(A):
+    print("Miguel Enterría Lastra UO278025")
     """
     Calcula el intervalo de omega donde SOR converge y el omega óptimo.
 
@@ -579,6 +588,7 @@ def sor_interval(A):
     return inter, float(ropt), float(np.round(wopt, 2))
 
 def autoval_potencia(A, delta=np.inf, tol=(1e-6, 2), niter=100):
+    print("Miguel Enterría Lastra UO278025")
     """
     Aproxima el autovalor de A más cercano a delta mediante:
       - delta = ±inf  -> método de la potencia (mayor |lambda|)
@@ -665,6 +675,7 @@ def autoval_potencia(A, delta=np.inf, tol=(1e-6, 2), niter=100):
     return lam, u_prev
 
 def approxmc1c(base, ab, funcion, npts=200):
+    print("Miguel Enterría Lastra UO278025")
     """
     Resuelve el ajuste continuo por mínimos cuadrados en [a,b] con ecuaciones normales
 
@@ -704,6 +715,7 @@ def approxmc1c(base, ab, funcion, npts=200):
     return c, Ecm, r2
 
 def approxmc1d(base, x, y):
+    print("Miguel Enterría Lastra UO278025")
     """
     Calcula el ajuste por mínimos cuadrados discreto usando ecuaciones normales
 
@@ -740,6 +752,7 @@ def approxmc1d(base, x, y):
     return c, Ecm, r2
 
 def approxmc1d_eval(base, coef, z):
+    print("Miguel Enterría Lastra UO278025")
     """
     Evalúa la función de aproximación en los puntos z.
 
@@ -765,6 +778,7 @@ def approxmc1d_eval(base, coef, z):
     return psi
 
 def poly_optimo(x, y):
+    print("Miguel Enterría Lastra UO278025")
     """
     Calcula el polinomio de ajuste por mínimos cuadrados (grados crecientes)
     y selecciona el de menor error estándar.
