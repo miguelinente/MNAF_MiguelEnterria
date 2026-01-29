@@ -12,9 +12,9 @@ from matplotlib.lines import Line2D
 L = 10 #lado de la caja
 mass = 1 #masa del disco
 number_particles = 15
-#v0 = 1 #velocidad inicial
-#v0 = np.ones(number_particles)*v0
-v0 = 1 + 2*np.random.rand(number_particles)
+v0 = 1 #velocidad inicial
+v0 = np.ones(number_particles)*v0
+#v0 = 1 + 2*np.random.rand(number_particles)
 angle = 2*m.pi*np.random.rand(number_particles) #dirección inicial aleatoria
 pos = L*np.random.rand(number_particles,2) #posición inicial aleatoria (dentro de la caja)
 vel = np.zeros((number_particles,2))
@@ -62,7 +62,7 @@ ax.set_aspect('equal')
 plt.ion()  # Activar modo interactivo
 discos = []
 for i in range(number_particles):
-    disco = Line2D([pos[i][0]],[pos[i][1]],marker='o',markersize=8,color='red',markerfacecolor='red')
+    disco = Line2D([pos[i][0]],[pos[i][1]],marker='o',markersize=15,color='red',markerfacecolor='red')
     ax.add_line(disco)
     discos.append(disco)
 
@@ -87,7 +87,7 @@ for step in range(n):
         elif pos[i][0] > L:
             pos[i][0] = L     
             vel[i][0] = -vel[i][0]
-        elif pos[i][1] < 0: 
+        if pos[i][1] < 0: 
             pos[i][1] = 0   
             vel[i][1] = -vel[i][1]
         elif pos[i][1] > L:
