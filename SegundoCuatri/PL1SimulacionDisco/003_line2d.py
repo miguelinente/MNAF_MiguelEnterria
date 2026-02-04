@@ -62,7 +62,7 @@ ax.set_aspect('equal')
 plt.ion()  # Activar modo interactivo
 discos = []
 for i in range(number_particles):
-    disco = Line2D([pos[i][0]],[pos[i][1]],marker='o',markersize=15,color='red',markerfacecolor='red')
+    disco = Line2D([pos[i][0]],[pos[i][1]],marker='o',markersize=15,color='pink',markerfacecolor='violet')
     ax.add_line(disco)
     discos.append(disco)
 
