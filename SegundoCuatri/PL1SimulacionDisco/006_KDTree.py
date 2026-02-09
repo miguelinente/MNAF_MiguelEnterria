@@ -8,6 +8,7 @@ import numpy as np
 import math as m
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
+from scipy.spatial import KDTree
 
 L = 10  # lado de la caja
 mass = 1  # masa del disco
@@ -27,7 +28,6 @@ def energyToSpeed(energy):
 
 vel[:, 0] = energyToSpeed(Energia_inicial) * np.cos(angle)
 vel[:, 1] = energyToSpeed(Energia_inicial) * np.sin(angle)
-
 
 E_total_inicial = 0
 for i in range(number_particles):
@@ -53,12 +53,9 @@ def choque(p1, p2, n):
 dt = 0.01
 n_steps = 10000
 
-# Parámetros de colisión / rejilla
+# Parámetros de colisión
 r_choque = 0.25
-r_choque2 = r_choque * r_choque
-cell_size = r_choque             
-nx = int(np.ceil(L / cell_size))
-vecinos = [(1,0), (0,1), (1,1), (-1,1)] 
+r_choque2 = r_choque * r_choque 
 
 # Configuración del plot
 fig, ax = plt.subplots(figsize=(8, 8))
@@ -105,52 +102,15 @@ for step in range(n_steps):
             pos[i][1] = L
             vel[i][1] = -vel[i][1]
 
-    # Actualización de la rejilla de la rejilla
-    cells = [[] for _ in range(nx * nx)]
-    cxi = np.clip((pos[:, 0] / cell_size).astype(int), 0, nx - 1)
-    cyi = np.clip((pos[:, 1] / cell_size).astype(int), 0, nx - 1)
-    for i in range(number_particles):
-        cells[cxi[i] + nx * cyi[i]].append(i)
-
-    # Colisiones usando celdas
-    for cy in range(nx):
-        for cx in range(nx):
-            cell = cells[cx + nx*cy]
-
-            # Choques dentro de la misma celda
-            if len(cell) > 1:
-                for a in range(len(cell) - 1):
-                    i = cell[a]
-                    for b in range(a + 1, len(cell)):
-                        j = cell[b]
-
-                        d = pos[i] - pos[j]
-                        dist2 = d[0]*d[0] + d[1]*d[1]
-                        if dist2 < r_choque2 and dist2 > 0.0:
-                            normal = d / np.sqrt(dist2)
-                            choque(i, j, normal)
-            # Choques con celdas vecinas
-            if len(cell) > 0:
-                for dx, dy in vecinos:
-                    cx2 = cx + dx
-                    cy2 = cy + dy
-
-                    # límites
-                    if not (0 <= cx2 < nx and 0 <= cy2 < nx):
-                        continue
-
-                    neighbor_cell = cells[cx2 + nx*cy2]
-                    # Comprobación de si las celdas vecinas están vacías 
-                    if len(neighbor_cell) == 0:
-                        continue
-
-                    for i in cell:
-                        for j in neighbor_cell:
-                            d = pos[i] - pos[j]
-                            dist2 = d[0]*d[0] + d[1]*d[1]
-                            if dist2 < r_choque2 and dist2 > 0.0:
-                                normal = d / np.sqrt(dist2)
-                                choque(i, j, normal)
+    # Colisiones usando KDTree
+    kdtree = KDTree(pos)
+    pairs = kdtree.query_pairs(r_choque)
+    
+    for i, j in pairs:
+        d = pos[i] - pos[j]
+        dist = np.linalg.norm(d)
+        normal = d / dist
+        choque(i, j, normal)
     # Actualizar plot cada 10 pasos
     if step % 10 == 0:
         for i in range(number_particles):
