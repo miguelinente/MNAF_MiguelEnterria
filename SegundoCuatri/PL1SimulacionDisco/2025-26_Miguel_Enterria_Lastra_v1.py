@@ -29,7 +29,7 @@ from scipy.spatial import KDTree
 
 L = 10  # lado de la caja
 mass = 1  # masa del disco
-number_particles = 100
+number_particles = 10
 
 kB = 0.01 # Constante de Boltzman
 T0 = 50 # Temperatura inicial
