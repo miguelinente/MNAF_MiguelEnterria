@@ -26,9 +26,16 @@ E0 = 1 # Intensidad del pulso
 dx_pulso = 40e-9 
 dt_pulso = dx_pulso/c
 t0_pulso = 5*dt_pulso
-k0_pulso = 200
+k0_pulso = 100
 l0_pulso = 200
+k_dielec = 200
 t = 0 # Tiempo inicial
+
+eps1 = 1
+eps2 = 4
+cd = np.zeros((ptos-1, ptos-1))
+cd[:200,:] = 1/(2*eps1)
+cd[200:,:] = 1/(2*eps2)
 
 # Representación inicial:
 fig = plt.figure(figsize=(6, 6), clear=True)  # Genero mi "lienzo"
@@ -95,7 +102,7 @@ Etemp4= np.zeros((ptos,2))
 
 for i in range(n_steps):
 
-    Ez[1:,1:] += 0.5*(Hy[1:,1:] - Hy[:-1,1:]) - 0.5*(Hx[1:,1:] - Hx[1:,:-1])
+    Ez[1:,1:] += cd*(Hy[1:,1:] - Hy[:-1,1:]) - cd*(Hx[1:,1:] - Hx[1:,:-1])
 
     Ez[k0_pulso, l0_pulso] = E0*np.exp(-0.5*((t - t0_pulso)/dt_pulso)**2)
 
