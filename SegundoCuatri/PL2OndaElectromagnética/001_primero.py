@@ -53,7 +53,7 @@ ax.set_title("Propagación onda electromagnética")
 line_Ey, = ax.plot(mallado*1e6, Ey, color="blue", label="Ey(x,t)")
 line_Hz, = ax.plot(mallado*1e6, Hz, color="red", label="Hz(x,t)")
 ax.legend()
-
+    
 plt.ion()
 plt.show()
 
