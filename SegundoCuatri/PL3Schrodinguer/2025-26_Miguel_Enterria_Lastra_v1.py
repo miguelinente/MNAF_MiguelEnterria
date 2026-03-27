@@ -100,7 +100,7 @@ if __name__ == '__main__':
     V = 0.5*omega**2*mallado**2
     Vr = V/max(V)    
 
-    Hermite = False # Variable para generar un polinomio de Hermite o no
+    Hermite = True # Variable para generar un polinomio de Hermite o no
 
     if Hermite:
 
