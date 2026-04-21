@@ -6,6 +6,15 @@ def F(L,rho,alpha):
     return L*(L+1)/(rho**2) - 2/rho + alpha
 
 def numerov(L, rho_space, alpha, drho, n):
+    '''
+        Implementación del método de numerov para encontrar las funciones de onda en todo el espacio
+
+        Entrada:
+            L, rho_space, alpha, dhro, n: valores para los cálculos del método
+
+        Salida:
+            psi_curr: Valor de la función de onda en unpunto alejado del núcleo
+    '''
     drho2 = drho**2
     
     f_array = F(L, rho_space, alpha)
@@ -93,21 +102,23 @@ def Biseccion(L,rho_space,n,drho,intervalo,tol=1e-10,max_iter=200):
             iter += 1
 
         alphas.append((alpha_L + alpha_R)/2)
-    
+
     return alphas
 
 def main():
     # Valores iniciales #
 
     n_pts = 50001
-    rho_lim = 200 # Punto más alejado donde se calucla el valor de la función de onda.
+    rho_lim = 80 # Punto más alejado donde se calucla el valor de la función de onda.
     rho_space = np.linspace(1e-7,rho_lim,n_pts) #Evitar así singularidad
     drho = (rho_lim)/(n_pts - 1)
 
+    print(f"\nSimulación para {n_pts} puntos y rho = {rho_lim}"
+          )
     n_alphas = 1500
     alphas = np.linspace(0.01, 1.1, n_alphas)
     for L in range(2):
-        print("\n----- Calculando para L =  -----\n",L)
+        print(f"\n----- Calculando para L = {L} -----\n")
         psi = [] #Lista con todos los valores de la función de onda en el infinito
         for alpha in alphas:
             psi.append(numerov(L,rho_space,alpha,drho,n_pts))
@@ -117,7 +128,7 @@ def main():
         intervalos = barridoInicial(psi, alphas)
         #print("Intervalos: ", intervalos)
 
-        Alphas = Biseccion(L,rho_space,n_pts,drho,intervalos)
+        Alphas = Biseccion(L,rho_space,n_pts,drho,intervalos,tol = 1e-15, max_iter=500)
         for alpha in Alphas:
             print(f"Energía encontrado: {alpha}, valor: {-13.6*alpha} eV")
 

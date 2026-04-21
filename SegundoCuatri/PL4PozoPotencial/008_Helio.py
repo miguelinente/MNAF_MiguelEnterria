@@ -6,6 +6,15 @@ def F(L,rho,alpha,Z):
     return L*(L+1)/(rho**2) - 2*Z/rho + alpha
 
 def numerov(L, rho_space, alpha, drho, n,Z):
+    '''
+        Implementación del método de numerov para encontrar las funciones de onda en todo el espacio
+
+        Entrada:
+            L, rho_space, alpha, dhro, n: valores para los cálculos del método
+
+        Salida:
+            psi_curr: Valor de la función de onda en unpunto alejado del núcleo
+    '''
     drho2 = drho**2
     
     f_array = F(L, rho_space, alpha,Z)
@@ -99,17 +108,17 @@ def Biseccion(L,rho_space,n,drho,intervalo,Z,tol=1e-10,max_iter=200):
 def main():
     # Valores iniciales #
 
-    n_pts = 10001
-    rho_lim = 100 # Punto más alejado donde se calucla el valor de la función de onda.
+    n_pts = 50001
+    rho_lim = 50 # Punto más alejado donde se calucla el valor de la función de onda.
     rho_space = np.linspace(1e-7,rho_lim,n_pts) #Evitar así singularidad
     drho = (rho_lim)/(n_pts - 1)
 
-    Z = 2 #Número atómico del helio
+    Z = 2
 
-    n_alphas = Z/2*1000
-    alphas = np.linspace(0.05, Z + 0.05, n_alphas)
+    n_alphas = 1500
+    alphas = np.linspace(0.05, 4.05, n_alphas)
     for L in range(2):
-        print("\n----- Calculando para L =  -----\n",L)
+        print(f"\n----- Calculando para L = {L} -----\n")
         psi = [] #Lista con todos los valores de la función de onda en el infinito
         for alpha in alphas:
             psi.append(numerov(L,rho_space,alpha,drho,n_pts,Z))

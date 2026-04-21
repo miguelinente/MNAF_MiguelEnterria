@@ -158,11 +158,11 @@ if __name__ == '__main__':
     k = (2*me*(a**2)*V0)/(h_b**2)
     print("k = ",k)
 
-    n_pts = 10001
+    n_pts = 4001
     umax = 2 # Punto más alejado donde se calucla el valor de la función de onda.
     u = np.linspace(0,umax,n_pts)
     du = umax/(n_pts - 1)
-
+    print("du = ",du)
     n_alphas = 2000
     alphas = np.linspace(0.001, 0.999, n_alphas)
 
@@ -188,23 +188,36 @@ if __name__ == '__main__':
     print("\nAlphas pares: ", alphas_par_biseccion)
     print("\nAlphas impares: ", alphas_impar_biseccion)
 
-    plt.figure(figsize=(10,6))
+    # Combinar todas las soluciones con su información de paridad
+    todas_las_soluciones = []
     for alpha in alphas_par_biseccion:
-        psi_pos = psi_plot(k, u, alpha, n_pts, du, par=True)
-        u_total, psi_total = onda_completa(u, psi_pos, par=True)
-        plt.plot(u_total, psi_total, label=f'α = {alpha:.6f}', linewidth=1.5)
+        todas_las_soluciones.append((alpha, True))  # True para par
     for alpha in alphas_impar_biseccion:
-        psi_pos = psi_plot(k, u, alpha, n_pts, du, par=False)
-        u_total, psi_total = onda_completa(u, psi_pos, par=False)
-        plt.plot(u_total, psi_total, label=f'α = {alpha:.6f}', linewidth=1.5)
+        todas_las_soluciones.append((alpha, False))  # False para impar
+    
+    # Ordenar por valor de alpha
+    todas_las_soluciones.sort(key=lambda x: x[0])
 
-    plt.axvline(x=-0.5, color='gray', linestyle='--', linewidth=1)
-    plt.axvline(x=0.5, color='gray', linestyle='--', linewidth=1)
-    plt.xlabel('u')
-    plt.ylabel('ψ(u)')
-    plt.title('Funciones de onda para los α obtenidos por bisección')
-    plt.legend()
-    plt.grid(True, alpha=0.3)
+    # Tomar las primeras 3 soluciones
+    n_graficas = min(3, len(todas_las_soluciones))
+    fig, axes = plt.subplots(1, n_graficas, figsize=(6*n_graficas, 5))
+    
+    if n_graficas == 1:
+        axes = [axes]
+
+    for idx, (alpha, es_par) in enumerate(todas_las_soluciones[:3]):
+        psi_pos = psi_plot(k, u, alpha, n_pts, du, par=es_par)
+        u_total, psi_total = onda_completa(u, psi_pos, par=es_par)
+        axes[idx].plot(u_total, psi_total, linewidth=2)
+        axes[idx].axvline(x=-0.5, color='gray', linestyle='--', linewidth=1)
+        axes[idx].axvline(x=0.5, color='gray', linestyle='--', linewidth=1)
+        axes[idx].set_xlabel('u')
+        axes[idx].set_ylabel('ψ(u)')
+        paridad_texto = 'par' if es_par else 'impar'
+        axes[idx].set_title(f'α = {alpha:.6f} ({paridad_texto})')
+        axes[idx].grid(True, alpha=0.3)
+
+    plt.tight_layout()
     plt.show()
 
 

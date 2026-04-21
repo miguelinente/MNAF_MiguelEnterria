@@ -57,7 +57,7 @@ def construirPsi(k,u,alpha,du,n):
         psi = act /(1 - du2*f/12)
         prev = temp
 
-    # Devolver un array con la misma longitud que `u` (no añadir el append extra)
+    # Devolver un array con la misma longitud que `u`
     return np.array(psi_tot)
 
 def barridoInicial(psi, alphas):
@@ -127,9 +127,8 @@ def Biseccion(k,u,n,du,intervalo,tol=1e-10,max_iter=200):
     
     return alphas
 
-def calculos():
-    # Valores iniciales #
-
+if __name__ == '__main__':
+    
     V0 = 244
     a = 1e-10 
     h_b = 6.582e-16
@@ -137,11 +136,13 @@ def calculos():
     me = 0.511e6/(c**2)
 
     k = (2*me*(a**2)*V0)/(h_b**2)
+    print("k = ",k)
 
-    n_pts = 4001
-    ulim = 2 # Punto más alejado donde se calucla el valor de la función de onda.
+    n_pts = 10001
+    ulim = 4 # Punto más alejado donde se calucla el valor de la función de onda.
     u = np.linspace(-ulim,ulim,n_pts)
     du = (ulim*2)/(n_pts - 1)
+    print("du = ",du)
 
     n_alphas = 2000
     alphas = np.linspace(0.001, 0.999, n_alphas)
@@ -157,43 +158,6 @@ def calculos():
 
     alphas_biseccion = Biseccion(k,u,n_pts,du,intervalos,tol=1e-10,max_iter=200)
     print("\nAlphas: ", alphas_biseccion)
-
-    # Máscara para el plot
-    mask = alphas >= 0.2
-    alphas = alphas[mask]
-    psi = psi[mask]
-
-    plt.figure(figsize=(8, 5))
-    plt.plot(alphas, psi, lw=1.5)
-    plt.xlabel(r'$\alpha$')
-    plt.ylabel(r'$\psi$')
-    plt.title('Lista psi calculada con Numerov')
-    plt.grid(True, alpha=0.3)
-    plt.tight_layout()
-    plt.show()
-
-    return alphas_biseccion
-
-if __name__ == '__main__':
-    
-    V0 = 244
-    a = 1e-10 
-    h_b = 6.582e-16
-    c = 299792458
-    me = 0.511e6/(c**2)
-
-    k = (2*me*(a**2)*V0)/(h_b**2)
-    print("k = ",k)
-
-    n_pts = 4001
-    ulim = 2 # Punto más alejado donde se calucla el valor de la función de onda.
-    u = np.linspace(-ulim,ulim,n_pts)
-    du = (ulim*2)/(n_pts - 1)
-
-    # Se han extraido los valores para otras iteraciones para no tener que calularlos cada vez
-
-    alphas_biseccion = [np.float64(0.0981251656656685), np.float64(0.383098182184986), np.float64(0.8085638601215202)]
-    #alphas_biseccion = calculos()
 
     fig, axes = plt.subplots(1, 3, figsize=(15, 4), sharey=False)
 
