@@ -3,14 +3,14 @@ import matplotlib.pyplot as plt
 
 def desintegracionBi(plot = True):
 
-    N0 = 1000
+    N0 = 100
     t = np.zeros(N0)
     tau = 7.5 #*24*60*60 # En segundos
     print(f"\nvida media (τ) = {tau}\n")
     u = np.random.uniform(0,1,N0)
     tiempos_desintegracion = -tau * np.log(u)
 
-    tiempos_simulacion = np.linspace(0,40,100) #0 a 40 días
+    tiempos_simulacion = np.linspace(0,40,40) #0 a 40 días
     nucleos_restantes = []
 
     for t_sim in tiempos_simulacion:
